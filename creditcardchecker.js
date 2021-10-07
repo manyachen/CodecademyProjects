@@ -26,22 +26,85 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 // Add your functions below:
 function validateCred(array){
     var result = false;
-
+    var sumDigits = 0;
+    var IsDoubleDigit = 0;
+    for(var i = array.length;i>=0;i--)
+    {
+        if(IsDoubleDigit%2!=0&&array[i]*2>9)
+        {
+            sumDigits += array[i]*2-9;;        
+        }
+        else
+        {
+            sumDigits += array[i];
+        }
+        IsDoubleDigit++;
+    }
+    if(sumDigits%10===0) result = true;
     return result;
 
 }
 
-function findInvalidCards(array){
+function findInvalidCards(NestedArray){
+    var NestedArrayInvaid =[];
+    NestedArray.forEach(element => {
+        if(!validateCred(element))
+            NestedArrayInvaid.push(element);
+    });
+    return NestedArrayInvaid;
+}
+
+function idInvalidCardCompanies(NestedArrayInvaid)
+{
+    var Companies = [];
+    var idInvalidCard = [];
+    for(var i =0;i<NestedArrayInvaid.length;i++)
+    {
+        if(idInvalidCard.indexOf(NestedArrayInvaid[i][0])===-1)
+        {
+            idInvalidCard.push(NestedArrayInvaid[i][0]);
+        }        
+    } 
+    idInvalidCard.forEach(element => {
+        if (element === 3)
+        {
+            Companies.push("Amex (American Express)");
+        }
+        else if (element === 4)
+        {
+            Companies.push("Mastercard");
+        }
+        else if (element === 5)
+        {
+            Companies.push("Discover");
+        }
+        else if (element === 6)
+        {
+            Companies.push("Mastercard");
+        }
+        else
+        {
+            Companies.push("Company not found");
+        }
+    });
+    return Companies;
 
 }
 
-function idInvalidCardCompanies(){
-    
-}
+/*
+Luhn algorithm
+https://en.wikipedia.org/wiki/Luhn_algorithm#Description
+Starting from the farthest digit to the right, AKA the check digit, iterate to the left.
+As you iterate to the left, every other digit is doubled (the check digit is not doubled). If the number is greater than 9 after doubling, subtract 9 from its value.
+Sum up all the digits in the credit card number.
+If the sum modulo 10 is 0 (if the sum divided by 10 has a remainder of 0) then the number is valid, otherwise, it’s invalid.
 
+https://content.codecademy.com/PRO/independent-practice-projects/credit-card-checker/diagrams/cc%20validator%20diagram%201.svg
+*/
 
+// Test
 
-
-
-
-
+var test1 = findInvalidCards(batch);
+var test2 = idInvalidCardCompanies(test1);
+//console.log(test1);
+console.log(test2);
