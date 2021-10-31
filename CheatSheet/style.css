@@ -1,0 +1,10 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: gainsboro;
+}
+
+user agent stylesheet
+body {
+    display: block;
+    margin: 8px;
+}
